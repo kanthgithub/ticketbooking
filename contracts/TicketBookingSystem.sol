@@ -74,15 +74,18 @@ contract TicketBookingSystem {
         string showId,
         address issuer,
         string showName,
-        string showTimeAsGMT,
-        uint256 showPrice) public {
+        uint totalNumberOfTickets,
+        uint256 showPrice,
+        uint256 showTime,
+        string showTimeAsGMT
+        ) public {
         require(TicketStructsLib.isANonEmptyString(showId), "invalid ticketId");
         require(TicketStructsLib.isAValidAddress(issuer), "invalid issuer Address");
-        require(TicketStructsLib.isAValidAddress(customer), "invalid customer Address");
         require(TicketStructsLib.isANonEmptyString(showName), "invalid showName");
+        require(TicketStructsLib.isAValidInteger(totalNumberOfTickets), "invalid totalNumberOfTickets");
+        require(TicketStructsLib.isAValidInteger(showPrice), "invalid showPrice");
         require(TicketStructsLib.isAValidInteger(showTime), "invalid showTime");
         require(TicketStructsLib.isANonEmptyString(showTimeAsGMT), "invalid showTimeAsGMT");
-        require(TicketStructsLib.isAValidInteger(showPrice), "invalid showPrice");
 
 
 

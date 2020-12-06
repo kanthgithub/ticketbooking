@@ -15,11 +15,14 @@ library TicketStructLib {
 
     struct Show {
         string showId;
-        string showName;
-        uint showTime;
+        address issuer;
         bool isActive;
-        string showTimeAsGMT;
+        string showName;
+        uint totalNumberOfTickets;
+        uint availableTicketCount;
         uint256 showPrice;
+        uint256 showTime;
+        string showTimeAsGMT;
         uint256 creationTimeStamp;
         uint256 blockNumberAtCreation;
         uint256 updationTimeStamp;
