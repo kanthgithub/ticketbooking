@@ -1,30 +1,48 @@
 pragma solidity >=0.4.21 <=0.6.10;
+pragma experimental ABIEncoderV2;
 
 library TicketStructLib {
 
     struct Issuer {
-        string issuerName;
         address issuerAddress;
+        string issuerName;
+        bool isActive;
+        uint256 creationTimeStamp;
+        uint256 blockNumberAtCreation;
+        uint256 updationTimeStamp;
+        uint256 blockNumberAtUpdate;
     }
 
-    struct ShowInfo {
-        uint showId;
+    struct Show {
+        string showId;
         string showName;
         uint showTime;
+        bool isActive;
         string showTimeAsGMT;
-        uint showPrice;
+        uint256 showPrice;
+        uint256 creationTimeStamp;
+        uint256 blockNumberAtCreation;
+        uint256 updationTimeStamp;
+        uint256 blockNumberAtUpdate;
     }
 
     struct Ticket {
-        address ticketId;
+        string ticketId;
+        bool isActive;
+        string showId;
         address issuer;
-        address showTime;
-        int8 isLocked;
+        bool isLocked;
         address customer;
         uint lockedFor;
         uint lockedAt;
-        uint256 createdAt;
-        uint256 updatedAt;
+        uint256 creationTimeStamp;
+        uint256 blockNumberAtCreation;
+        uint256 updationTimeStamp;
+        uint256 blockNumberAtUpdate;
+    }
+
+    function canUnLockTicket(uint256 lockedTime, uint256 lockPeriod) public returns (bool) {
+        return lockedTime.add(lockPeriod) <= block.timestamp;
     }
 
      function addressToString(address addressForConversion) public pure returns (string memory)  {
@@ -48,6 +66,10 @@ library TicketStructLib {
 
     function isAValidAddress(address addressArgument) public pure returns(bool){
         return addressArgument != address(0x0);
+    }
+
+    function isAValidInteger(uint integerValue) public pure returns(bool){
+        return integerValue > 0;
     }
 
      function translateAddressToString(address x) public pure returns(string memory) {
