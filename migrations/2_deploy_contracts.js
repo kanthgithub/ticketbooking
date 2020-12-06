@@ -1,8 +1,8 @@
-const lakshmiKanthToken = artifacts.require('./LakshmiKanthToken.sol')
+const ticketBookingSystem = artifacts.require('./TicketBookingSystem')
 
 module.exports = function (deployer, network, accounts) {
   deployer.then(async () => {
-    const lakshmiKanthTokenDeployedInstance = await deployer.deploy(lakshmiKanthToken);
-    console.log(`lakshmiKanthToken is deployed with Address: ${lakshmiKanthTokenDeployedInstance.address}`);
+    const ticketBookingSystemDeployedInstance = await deployer.deploy(ticketBookingSystem);
+    console.log(`ticketBookingSystemDeployedInstance is deployed with Address: ${ticketBookingSystemDeployedInstance.address}`);
   });
 };
