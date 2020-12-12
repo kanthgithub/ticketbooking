@@ -35,7 +35,7 @@ contract TicketBookingSystem {
     mapping(string => address) public ticketBookingCustomerMap;
 
     modifier onlyOwner {
-        require(msg.sender == owner, "only Owner can invoke the function");
+        require(msg.sender == owner);
         _;
     }
 
@@ -43,13 +43,8 @@ contract TicketBookingSystem {
         return owner;
     }
 
-    modifier isIssuerAuthorised(address issuerAddress){
-        require(issuerMap[msg.sender].issuerAddress == issuerAddress , "not Authorized to Invoke the function");
-        _;
-    }
-
-    modifier isAnIssuerOfAShow(string memory _showId){
-         require(showMap[_showId].issuer == msg.sender , "only Show Issuer can invoke the function");
+    modifier onlyTicketIssuer() {
+       require(issuerMap[msg.sender].createdAt > 0 , "TicketIssuer doesnot exist in System");
         _;
     }
 
@@ -67,12 +62,7 @@ contract TicketBookingSystem {
         issuerMap[_issuerAddress] = issuerObjectForPersistence;
     }
 
-    function getTicketIssuerDetails(address _issuerAddress) public view returns(TicketStructLib.Issuer memory issuer){
-        require(doesIssuerExist(_issuerAddress), "TicketIssuer doesnot exist with this issuerAddress");
-        return issuerMap[_issuerAddress];
-    }
-
-    function doesIssuerExist(address _issuerAddress) public view returns(bool){
+    function doesIssuerExist(address _issuerAddress) public returns(bool){
         require(TicketStructLib.isAValidAddress(_issuerAddress), "issuerAddress is Invalid");
         return issuerMap[_issuerAddress].createdAt > 0;
     }
@@ -85,7 +75,7 @@ contract TicketBookingSystem {
         uint256 _showPrice,
         uint256 _showTime,
         string memory _showTimeAsGMT
-        ) isIssuerAuthorised(_issuer) public {
+        ) onlyTicketIssuer public {
         require(TicketStructLib.isANonEmptyString(_showId), "invalid showId");
         require(doesIssuerExist(_issuer), "Issuer doesnot exist" );
         require(msg.sender == _issuer , "TicketIssuer Can create Shows for the Self. Cannot create shows for other Issuers");
@@ -111,19 +101,15 @@ contract TicketBookingSystem {
         showMap[_showId] = showObjectForPersistence;
     }
 
-    function getShowDetails(string memory _showId) public view returns(TicketStructLib.Show memory show){
-        require(doesShowExist(_showId), "show doesnot exist with this showId");
-        return showMap[_showId];
-    }
-    
-    function doesShowExist(string memory _showId) public view returns(bool){
+    function doesShowExist(string memory _showId) public returns(bool){
         require(TicketStructLib.isANonEmptyString(_showId), "showId is Invalid");
         return showMap[_showId].createdAt > 0;
     }
 
     modifier onlyTicketCustomer(string memory _ticketId) {
         require(doesTicketExist(_ticketId), "invalid ticketId");
-        require(ticketBookingCustomerMap[_ticketId] == msg.sender, "message sender is not the ticket-holder");
+        address customerAddress = ticketBookingCustomerMap[_ticketId];
+        require(customerAddress == msg.sender, "message sender is not the ticket-holder");
         _;
     }
 
@@ -134,7 +120,7 @@ contract TicketBookingSystem {
         string memory _showId,
         address _issuer,
         address _customer,
-        uint8 _lockPeriodInSeconds) isAnIssuerOfAShow(_showId) public {
+        uint8 _lockPeriodInSeconds) public {
         require(TicketStructLib.isANonEmptyString(_ticketId), "invalid ticketId");
         require(TicketStructLib.isANonEmptyString(_showId), "invalid showId");
         require(TicketStructLib.isAValidAddress(_issuer), "invalid issuer Address");
@@ -142,8 +128,7 @@ contract TicketBookingSystem {
         require(TicketStructLib.isAValidInteger(_lockPeriodInSeconds), "invalid unlockDate value");
         require(_lockPeriodInSeconds > 0, "lockPeriodInSeconds should be a positive number");
 
-        TicketStructLib.Show storage showObjectFromStorage = showMap[_showId];
-        require(showObjectFromStorage.availableTicketCount>0, "Tickets not Available for the Show");
+        TicketStructLib.Show memory showObjectFromStorage = showMap[_showId];
 
         TicketStructLib.TicketBooking memory ticketBookingObjectForPersistence;
 
@@ -158,18 +143,14 @@ contract TicketBookingSystem {
                                                         lockedAt: now,
                                                         lockPeriodInSeconds: _lockPeriodInSeconds,
                                                         claimableFrom: now + _lockPeriodInSeconds * 1 seconds,
+                                                        isClaimed: 0,
                                                         claimedAt: 0,
-                                                        createdAt : now});
+                                                        createdAt : now,
+                                                        updatedAt : 0});
 
         ticketBookingMap[_ticketId] = ticketBookingObjectForPersistence;
         ticketBookingIssuerMap[_ticketId] = _issuer;
         ticketBookingCustomerMap[_ticketId] = _customer;
-        showObjectFromStorage.availableTicketCount = showObjectFromStorage.availableTicketCount-1;
-    }
-
-    function getTicketBookingDetails(string memory _ticketId) public view returns(TicketStructLib.TicketBooking memory ticketBooking){
-        require(doesTicketExist(_ticketId), "TicketBooking doesnot exist with this ticketId");
-        return ticketBookingMap[_ticketId];
     }
 
     function claimATicket(string memory _ticketId) onlyTicketCustomer(_ticketId) public {
@@ -179,13 +160,13 @@ contract TicketBookingSystem {
 
     function _claimTicket(string memory _ticketId) internal {
         TicketStructLib.TicketBooking storage ticketBookingObject = ticketBookingMap[_ticketId];
-        require(ticketBookingObject.claimedAt == 0 , "Ticket is already Claimed");
         require(now >= ticketBookingObject.claimableFrom);
         ticketBookingObject.isLocked = 0;
+        ticketBookingObject.isClaimed = 10;
         ticketBookingObject.claimedAt = now;
     }
 
-    function doesTicketExist(string memory _ticketId) public view returns(bool){
+    function doesTicketExist(string memory _ticketId) public returns(bool){
         require(TicketStructLib.isANonEmptyString(_ticketId), "invalid ticketId");
         return ticketBookingMap[_ticketId].createdAt > 0;
     }
@@ -198,7 +179,7 @@ contract TicketBookingSystem {
 
     function isTicketClaimed(string memory _ticketId) public returns(bool){
         require(doesTicketExist(_ticketId), "ticket doesnot exist");
-        return ticketBookingMap[_ticketId].claimedAt > 0;
+        return ticketBookingMap[_ticketId].isClaimed > 0;
     }
 
     function isTicketLocked(string memory _ticketId) public returns(bool){

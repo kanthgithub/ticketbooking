@@ -15,10 +15,10 @@ library TicketStructLib {
         string showId;
         address issuer;
         string showName;
-        uint totalNumberOfTickets;
-        uint availableTicketCount;
+        uint256 totalNumberOfTickets;
+        uint256 availableTicketCount;
         uint256 showPrice;
-        uint showTime;
+        uint256 showTime;
         string showTimeAsGMT;
         uint256 createdAt;
         uint256 updatedAt;
@@ -28,17 +28,15 @@ library TicketStructLib {
         string ticketId;
         string showId;
         uint256 showPrice;
-        uint showTime;
+        uint256 showTime;
         address issuer;
         address customer;
-        uint isLocked;
+        uint8 isLocked;
         uint lockedAt;
         uint lockPeriodInSeconds;
         uint claimableFrom;
-        uint isClaimed;
-        uint claimedAt;
+        uint256 claimedAt;
         uint256 createdAt;
-        uint256 updatedAt;
     }
 
     function canUnLockTicket(uint256 lockedTime, uint256 lockPeriod) public returns (bool) {
