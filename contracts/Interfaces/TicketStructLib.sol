@@ -42,7 +42,7 @@ library TicketStructLib {
     }
 
     function canUnLockTicket(uint256 lockedTime, uint256 lockPeriod) public returns (bool) {
-        return lockedTime.add(lockPeriod) <= block.timestamp;
+        return lockedTime + lockPeriod <= block.timestamp;
     }
 
      function addressToString(address addressForConversion) public pure returns (string memory)  {
