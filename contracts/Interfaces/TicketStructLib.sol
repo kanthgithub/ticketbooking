@@ -4,44 +4,36 @@ pragma experimental ABIEncoderV2;
 library TicketStructLib {
 
     struct Issuer {
+        string issuerId;
         address issuerAddress;
         string issuerName;
-        bool isActive;
-        uint256 creationTimeStamp;
-        uint256 blockNumberAtCreation;
-        uint256 updationTimeStamp;
-        uint256 blockNumberAtUpdate;
+        uint256 createdAt;
+        uint256 updatedAt;
     }
 
     struct Show {
         string showId;
         address issuer;
-        bool isActive;
         string showName;
         uint totalNumberOfTickets;
         uint availableTicketCount;
         uint256 showPrice;
         uint256 showTime;
         string showTimeAsGMT;
-        uint256 creationTimeStamp;
-        uint256 blockNumberAtCreation;
-        uint256 updationTimeStamp;
-        uint256 blockNumberAtUpdate;
+        uint256 createdAt;
+        uint256 updatedAt;
     }
 
-    struct Ticket {
-        string ticketId;
-        bool isActive;
-        string showId;
+    struct TicketBooking {
         address issuer;
-        bool isLocked;
         address customer;
-        uint lockedFor;
+        uint unlockDate;
+        bool isLocked;
         uint lockedAt;
-        uint256 creationTimeStamp;
-        uint256 blockNumberAtCreation;
-        uint256 updationTimeStamp;
-        uint256 blockNumberAtUpdate;
+        bool isClaimed;
+        uint claimedAt;
+        uint256 createdAt;
+        uint256 updatedAt;
     }
 
     function canUnLockTicket(uint256 lockedTime, uint256 lockPeriod) public returns (bool) {
