@@ -18,18 +18,23 @@ library TicketStructLib {
         uint totalNumberOfTickets;
         uint availableTicketCount;
         uint256 showPrice;
-        uint256 showTime;
+        uint showTime;
         string showTimeAsGMT;
         uint256 createdAt;
         uint256 updatedAt;
     }
 
     struct TicketBooking {
+        string ticketId;
+        string showId;
+        uint256 showPrice;
+        uint showTime;
         address issuer;
         address customer;
-        uint unlockDate;
         bool isLocked;
         uint lockedAt;
+        uint lockPeriodInSeconds;
+        uint claimableFrom;
         bool isClaimed;
         uint claimedAt;
         uint256 createdAt;
