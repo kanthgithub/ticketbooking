@@ -4,7 +4,8 @@
 
 ## Task 1 : Design Task
 
-1. ticket issuers should be able to add new movies , Other shows with the price & date information for the show.
+1. ticket issuers should be able to add new movies & shows.
+    - Movies & Shows must have the price & date information.
 2. Ticket buyers should be able to book a movie/show based on its availability and date.
 3. Ticket checkers at the venue should be able to verify the ticket online.
 

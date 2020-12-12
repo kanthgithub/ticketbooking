@@ -139,11 +139,11 @@ contract TicketBookingSystem {
                                                         showTime : showObjectFromStorage.showTime,
                                                         issuer: _issuer,
                                                         customer: _customer,
-                                                        isLocked: true,
+                                                        isLocked: block.number,
                                                         lockedAt: now,
                                                         lockPeriodInSeconds: _lockPeriodInSeconds,
                                                         claimableFrom: now + _lockPeriodInSeconds * 1 seconds,
-                                                        isClaimed: false,
+                                                        isClaimed: 0,
                                                         claimedAt: 0,
                                                         createdAt : block.timestamp,
                                                         updatedAt : 0});
@@ -161,8 +161,8 @@ contract TicketBookingSystem {
     function _claimTicket(string memory _ticketId) internal {
         TicketStructsLib.TicketBooking storage ticketBookingObject = ticketBookingMap[_ticketId];
         require(now >= ticketBookingObject.claimableFrom);
-        ticketBookingObject.isLocked = false;
-        ticketBookingObject.isClaimed = true;
+        ticketBookingObject.isLocked = 0;
+        ticketBookingObject.isClaimed = block.number;
         ticketBookingObject.claimedAt = now;
     }
 
@@ -179,12 +179,12 @@ contract TicketBookingSystem {
 
     function isTicketClaimed(string memory _ticketId) public returns(bool){
         require(doesTicketExist(_ticketId), "ticket doesnot exist");
-        return ticketBookingMap[_ticketId].isClaimed;
+        return ticketBookingMap[_ticketId].isClaimed > 0;
     }
 
     function isTicketLocked(string memory _ticketId) public returns(bool){
         require(doesTicketExist(_ticketId), "ticket doesnot exist");
-        return ticketBookingMap[_ticketId].isLocked;
+        return ticketBookingMap[_ticketId].isLocked > 0;
     }
 
     function info() public view returns(address, uint) {

@@ -31,11 +31,11 @@ library TicketStructLib {
         uint showTime;
         address issuer;
         address customer;
-        bool isLocked;
+        uint isLocked;
         uint lockedAt;
         uint lockPeriodInSeconds;
         uint claimableFrom;
-        bool isClaimed;
+        uint isClaimed;
         uint claimedAt;
         uint256 createdAt;
         uint256 updatedAt;
