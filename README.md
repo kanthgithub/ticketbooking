@@ -24,11 +24,11 @@
 
 ### DataStruct:
 
-<img src="images/SmartContract_TicketBooking_DataStruct_UML.png" width="1000" height="500">
+<img src="images/SmartContract_TicketBooking_DataStruct_UML.png" >
 
 ### Contract UML:
 
-<img src="images/SmartContract_TicketBooking_UML.png" width="1000" height="500">
+<img src="images/SmartContract_TicketBooking_UML.png" >
 
 
 ## Tech References:
