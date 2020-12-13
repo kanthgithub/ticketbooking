@@ -1,0 +1,99 @@
+lakshmikanth-MacBook-Pro:onlineticketbooking lakshmikanth$ truffle migrate --reset --network kovan
+
+Compiling your contracts...
+===========================
+> Everything is up to date, there is nothing to compile.
+
+
+
+Starting migrations...
+======================
+> Network name:    'kovan'
+> Network id:      42
+> Block gas limit: 12487794 (0xbe8c72)
+
+
+1_initial_migration.js
+======================
+1_initial_migration:  kovan
+
+   Deploying 'Migrations'
+   ----------------------
+   > transaction hash:    0x74063493065a473f489f3fae3df965199a0f4c3ed72bba15b6b92d817d9e973d
+   > Blocks: 3            Seconds: 13
+   > contract address:    0xE8B1363C0429e79c52285BF491d3Eb57550821b3
+   > block number:        22566404
+   > block timestamp:     1607848192
+   > account:             0x1c4411c670Ef6c3B1009B5D13C3822b977b52ce1
+   > balance:             0.75462660529517
+   > gas used:            225237 (0x36fd5)
+   > gas price:           30 gwei
+   > value sent:          0 ETH
+   > total cost:          0.00675711 ETH
+
+   Pausing for 1 confirmations...
+   ------------------------------
+   > confirmation number: 1 (block: 22566405)
+
+   > Saving migration to chain.
+   > Saving artifacts
+   -------------------------------------
+   > Total cost:          0.00675711 ETH
+
+
+2_deploy_contracts.js
+=====================
+default account: 0x1c4411c670Ef6c3B1009B5D13C3822b977b52ce1
+
+   Deploying 'TicketStructLib'
+   ---------------------------
+   > transaction hash:    0x100180e904a2fb73310b2595ff75057b230b0e78f09b24c887e58b71d6ef5345
+   > Blocks: 2            Seconds: 9
+   > contract address:    0x473B68BC81EcAdE9EAcB9d258105f2A81E5D04E8
+   > block number:        22566414
+   > block timestamp:     1607848248
+   > account:             0x1c4411c670Ef6c3B1009B5D13C3822b977b52ce1
+   > balance:             0.73475010529517
+   > gas used:            620187 (0x9769b)
+   > gas price:           30 gwei
+   > value sent:          0 ETH
+   > total cost:          0.01860561 ETH
+
+   Pausing for 1 confirmations...
+   ------------------------------
+   > confirmation number: 1 (block: 22566416)
+
+   Linking
+   -------
+   * Contract: TicketBookingSystem <--> Library: TicketStructLib (at address: 0x473B68BC81EcAdE9EAcB9d258105f2A81E5D04E8)
+
+   Deploying 'TicketBookingSystem'
+   -------------------------------
+   > transaction hash:    0x8f5b817a79a9de3f215e24aaa1ec971cc8a0589fc2ee49cc1d101acf72040a55
+   > Blocks: 1            Seconds: 5
+   > contract address:    0xe3E095beC9b6001723671c659B2482C37fA0341f
+   > block number:        22566419
+   > block timestamp:     1607848272
+   > account:             0x1c4411c670Ef6c3B1009B5D13C3822b977b52ce1
+   > balance:             0.60907410529517
+   > gas used:            4189200 (0x3fec10)
+   > gas price:           30 gwei
+   > value sent:          0 ETH
+   > total cost:          0.125676 ETH
+
+   Pausing for 1 confirmations...
+   ------------------------------
+   > confirmation number: 1 (block: 22566420)
+ticketBookingSystemDeployedInstance is deployed with Address: 
+    0xe3E095beC9b6001723671c659B2482C37fA0341f
+
+   > Saving migration to chain.
+   > Saving artifacts
+   -------------------------------------
+   > Total cost:          0.14428161 ETH
+
+
+Summary
+=======
+> Total deployments:   3
+> Final cost:          0.15103872 ETH

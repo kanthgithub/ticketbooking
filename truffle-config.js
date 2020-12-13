@@ -3,7 +3,7 @@ const Web3 = require('web3');
 const web3 = new Web3();
 const HDWalletProvider = require('@truffle/hdwallet-provider');
 const NonceTrackerSubprovider = require('web3-provider-engine/subproviders/nonce-tracker');
-const DEV_MNEMONIC = require('./ropsten_mnemonic.js').MNEMONIC;
+const DEV_MNEMONIC = require('./mnemonic.js').MNEMONIC;
 
 module.exports = {
   // See <http://truffleframework.com/docs/advanced/configuration>
@@ -18,12 +18,12 @@ module.exports = {
       gas: 6721975,
       gasPrice: web3.utils.toWei('1', 'gwei'),
     },
-    ropsten_infura: {
+    kovan: {
       // multi-client
       provider: function () {
         var wallet = new HDWalletProvider(
           DEV_MNEMONIC,
-          'https://ropsten.infura.io/v3/e16ecf41380f442987d31e736990fed2',
+          'https://kovan.infura.io/v3/ca5185b25a334fc0b9bc9380167dbe87',
           0,
           1000,
         ); 

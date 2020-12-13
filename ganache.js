@@ -1,7 +1,7 @@
 require('dotenv').config();
 const CONST = require('./const.js');
 
-const MNEMONIC = require('./ropsten_mnemonic.js').MNEMONIC;
+const MNEMONIC = require('./mnemonic.js').MNEMONIC;
 
 const shell = require('shelljs');
 const PORT = 8545;
