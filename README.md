@@ -1,6 +1,6 @@
-# Ticket Booking -Smart Contracts
+# Online Ticket Booking System -Smart Contracts
 
-# Online Ticket Booking System
+## Requirements:
 
 1. ticket issuers should be able to add new movies , Other shows with the price & date information for the show.
 2. Ticket buyers should be able to book a movie/show based on its availability and date.
@@ -19,7 +19,19 @@
 - Claim Ticket operation will be done by the user only after the lock period is over.
 - Make the claim operation native meta transaction enabled so claim operation can be done via meta transaction also.
 
-#### Tech References:
+
+## UML Design:
+
+### DataStruct:
+
+<img src="images/SmartContract_TicketBooking_DataStruct_UML.jpg" width="324" height="324">
+
+### Contract UML:
+
+<img src="images/SmartContract_TicketBooking_UML.png" width="324" height="324">
+
+
+## Tech References:
 
 - Time Units in Solidity: https://docs.soliditylang.org/en/v0.6.0/units-and-global-variables.html#time-units
 
